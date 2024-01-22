@@ -33,11 +33,14 @@ def print_views(root: Path, tag: str, short: bool, only_bricks: bool) -> None:
     diff.report.print_detected_changes_in_bricks(bases, components, short)
 
 
-def run(tag_name: Union[str, None], short: bool, only_bricks: bool):
+def run(tag_name: Union[str, None], short: bool, only_bricks: bool, any_ref: bool):
     root = repo.get_workspace_root(Path.cwd())
 
-    tag = diff.collect.get_latest_tag(root, tag_name)
-
+    if any_ref:
+        tag = tag_name
+    else:
+        tag = diff.collect.get_latest_tag(root, tag_name)
+    
     if not tag:
         print("No tags found in repository.")
         return
